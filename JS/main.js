@@ -23,50 +23,48 @@ savedTheme === null ?
     changeTheme('standard')
     : changeTheme(localStorage.getItem('savedTheme'));
 
-    function addToDo(event) {
-        event.preventDefault(); // Prevents form from reloading
-    
-        const inputText = toDoInput.value.trim(); // Trim whitespace
-    
-        if (inputText === '') {
+// Functions;
+function addToDo(event) {
+    // Prevents form from submitting / Prevents form from relaoding;
+    event.preventDefault();
+
+    // toDo DIV;
+    const toDoDiv = document.createElement("div");
+    toDoDiv.classList.add('todo', `${savedTheme}-todo`);
+
+    // Create LI
+    const newToDo = document.createElement('li');
+    if (toDoInput.value === '') {
             alert("You must write something!");
-            return;
-        }
-    
-        // Create to-do container
-        const toDoDiv = document.createElement("div");
-        toDoDiv.classList.add('todo', `${savedTheme}-todo`);
-    
-        // Create and append to-do item (li)
-        const newToDo = document.createElement('li');
-        newToDo.innerText = inputText;
+        } 
+    else {
+        // newToDo.innerText = "hey";
+        newToDo.innerText = toDoInput.value;
         newToDo.classList.add('todo-item');
         toDoDiv.appendChild(newToDo);
-    
-        // Save to local storage
-        savelocal(inputText);
-    
-        // Create and append check button
-        toDoDiv.appendChild(createButton('✔', 'check-btn'));
-    
-        // Create and append delete button
-        toDoDiv.appendChild(createButton('🗑', 'delete-btn'));
-    
-        // Append to list
+
+        // Adding to local storage;
+        savelocal(toDoInput.value);
+
+        // check btn;
+        const checked = document.createElement('button');
+        checked.innerHTML = '<i class="fas fa-check"></i>';
+        checked.classList.add('check-btn', `${savedTheme}-button`);
+        toDoDiv.appendChild(checked);
+        // delete btn;
+        const deleted = document.createElement('button');
+        deleted.innerHTML = '<i class="fas fa-trash"></i>';
+        deleted.classList.add('delete-btn', `${savedTheme}-button`);
+        toDoDiv.appendChild(deleted);
+
+        // Append to list;
         toDoList.appendChild(toDoDiv);
-    
-        // Clear input field
+
+        // CLearing the input;
         toDoInput.value = '';
     }
-    
-    // Helper function to create buttons
-    function createButton(text, className) {
-        const button = document.createElement('button');
-        button.innerText = text;
-        button.classList.add(className, `${savedTheme}-button`);
-        return button;
-    }
-    
+
+}   
 
 
 function deletecheck(event){
