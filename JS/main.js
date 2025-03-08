@@ -69,33 +69,29 @@ function createButton(text, className) {
 }
 
 
-function deletecheck(event){
-
-    // console.log(event.target);
+function deleteCheck(event) {
     const item = event.target;
+    const task = item.parentElement; // Get the task container
 
-    // delete
-    if(item.classList[0] === 'delete-btn')
-    {
-        // item.parentElement.remove();
-        // animation
-        item.parentElement.classList.add("fall");
-
-        //removing local todos;
-        removeLocalTodos(item.parentElement);
-
-        item.parentElement.addEventListener('transitionend', function(){
-            item.parentElement.remove();
-        })
+    if (item.classList.contains('delete-btn')) {
+        deleteTask(task);
+    } else if (item.classList.contains('check-btn')) {
+        toggleTaskCompletion(task);
     }
+}
 
-    // check
-    if(item.classList[0] === 'check-btn')
-    {
-        item.parentElement.classList.toggle("completed");
-    }
+// Function to delete a task with animation
+function deleteTask(task) {
+    task.classList.add("fall"); // Add animation class
 
+    removeLocalTodos(task); // Remove from local storage
 
+    task.addEventListener('transitionend', () => task.remove()); // Wait for animation before removing
+}
+
+// Function to toggle task completion
+function toggleTaskCompletion(task) {
+    task.classList.toggle("completed");
 }
 
 
