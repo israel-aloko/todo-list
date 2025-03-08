@@ -25,46 +25,48 @@ savedTheme === null ?
 
 // Functions;
 function addToDo(event) {
-    // Prevents form from submitting / Prevents form from relaoding;
-    event.preventDefault();
+    event.preventDefault(); // Prevents form from reloading
 
-    // toDo DIV;
+    const inputText = toDoInput.value.trim(); // Trim whitespace
+
+    if (inputText === '') {
+        alert("You must write something!");
+        return;
+    }
+
+    // Create to-do container
     const toDoDiv = document.createElement("div");
     toDoDiv.classList.add('todo', `${savedTheme}-todo`);
 
-    // Create LI
+    // Create and append to-do item (li)
     const newToDo = document.createElement('li');
-    if (toDoInput.value === '') {
-            alert("You must write something!");
-        } 
-    else {
-        // newToDo.innerText = "hey";
-        newToDo.innerText = toDoInput.value;
-        newToDo.classList.add('todo-item');
-        toDoDiv.appendChild(newToDo);
+    newToDo.innerText = inputText;
+    newToDo.classList.add('todo-item');
+    toDoDiv.appendChild(newToDo);
 
-        // Adding to local storage;
-        savelocal(toDoInput.value);
+    // Save to local storage
+    savelocal(inputText);
 
-        // check btn;
-        const checked = document.createElement('button');
-        checked.innerHTML = '<i class="fas fa-check"></i>';
-        checked.classList.add('check-btn', `${savedTheme}-button`);
-        toDoDiv.appendChild(checked);
-        // delete btn;
-        const deleted = document.createElement('button');
-        deleted.innerHTML = '<i class="fas fa-trash"></i>';
-        deleted.classList.add('delete-btn', `${savedTheme}-button`);
-        toDoDiv.appendChild(deleted);
+    // Create and append check button
+    toDoDiv.appendChild(createButton('✔', 'check-btn'));
 
-        // Append to list;
-        toDoList.appendChild(toDoDiv);
+    // Create and append delete button
+    toDoDiv.appendChild(createButton('🗑', 'delete-btn'));
 
-        // CLearing the input;
-        toDoInput.value = '';
-    }
+    // Append to list
+    toDoList.appendChild(toDoDiv);
 
-}   
+    // Clear input field
+    toDoInput.value = '';
+}
+
+// Helper function to create buttons
+function createButton(text, className) {
+    const button = document.createElement('button');
+    button.innerText = text;
+    button.classList.add(className, `${savedTheme}-button`);
+    return button;
+}
 
 
 function deletecheck(event){
